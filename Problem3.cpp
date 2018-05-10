@@ -1,41 +1,48 @@
 #include <iostream>
-#include <cmath>
 #include <vector>
-#include <ostream>
-#include <iterator>
-#include <algorithm>
 
-using namespace std;
-
-vector<int> primes;
-
-bool isPrime(const int number)
+// Good version
+std::vector<size_t>& find_primes(long long number)
 {
-	for(int j = 0; j < primes.size() && primes[j]*primes[j] <= number; ++j)
-		if(j % primes[j] == 0)
-			return false;
-}
+	std::vector<size_t> prime_factors;
 
-void findPrimes(const int number)
-{
-	if(number <= 1)
-		return;
-
-	if(number % 2 == 0)
-		primes.push_back(2);
-
-	for(int i=3; i*i < number; i+=2)
+	// range error check
+	if (number < 2)
 	{
-		
+		return prime_factors;
 	}
+
+	// Special check for factor 2
+	if (number % 2 == 0)
+	{
+		prime_factors.push_back(2);
+	}
+	
+	// Normal check
+	for (size_t i = 3; i <= number; i += 2)
+	{
+		while (number % i == 0)
+		{
+			number /= i;
+			std::cout << i << " , ";
+			prime_factors.push_back(i);
+		}
+	}
+
+	return prime_factors;
 }
+
 
 int main()
 {
-  std::cout << "Hello World!";
+  long long number = 600851475143;
+/*
+uint max:		4294967295
+range:			600851475143
+sqrt range:		775146 
+*/
 
-  int number = 13195;
-  findPrimes(number);
+  std::vector<size_t> vec = find_primes(number);
 
-  copy(primes.begin(),primes.end(), ostream_iterator<int>(cout, " "));
+  return 0;
 }
